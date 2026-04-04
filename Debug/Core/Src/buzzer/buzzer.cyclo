@@ -1,0 +1,6 @@
+../Core/Src/buzzer/buzzer.cpp:16:6:bool init_buzzer(TIM_HandleTypeDef*)	1
+../Core/Src/buzzer/buzzer.cpp:21:12:int pres_for_frequency(int)	2
+../Core/Src/buzzer/buzzer.cpp:27:6:void tone(int)	1
+../Core/Src/buzzer/buzzer.cpp:32:6:void noTone()	1
+../Core/Src/buzzer/buzzer.cpp:37:6:void buzzer_play_ok()	1
+../Core/Src/buzzer/buzzer.cpp:66:6:void buzzer_play_fail()	1

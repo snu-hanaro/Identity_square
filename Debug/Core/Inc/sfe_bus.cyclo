@@ -1,0 +1,34 @@
+../Core/Inc/sfe_bus.h:109:13:virtual uint8_t SparkFun_UBLOX_GNSS::SfeI2C::writeReadBytes(const uint8_t*, uint8_t*, uint8_t)	1
+../Core/Inc/sfe_bus.h:112:10:virtual void SparkFun_UBLOX_GNSS::SfeI2C::startWriteReadByte()	1
+../Core/Inc/sfe_bus.h:113:10:virtual void SparkFun_UBLOX_GNSS::SfeI2C::writeReadByte(const uint8_t*, uint8_t*)	1
+../Core/Inc/sfe_bus.h:114:10:virtual void SparkFun_UBLOX_GNSS::SfeI2C::writeReadByte(uint8_t, uint8_t*)	1
+../Core/Inc/sfe_bus.h:115:10:virtual void SparkFun_UBLOX_GNSS::SfeI2C::endWriteReadByte()	1
+../Core/Inc/sfe_bus.h:134:10:virtual bool SparkFun_UBLOX_GNSS::SfeSPI::ping()	1
+../Core/Inc/sfe_bus.h:164:10:virtual bool SparkFun_UBLOX_GNSS::SfeSerial::ping()	1
+../Core/Inc/sfe_bus.h:170:13:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSerial::writeReadBytes(const uint8_t*, uint8_t*, uint8_t)	1
+../Core/Inc/sfe_bus.h:173:10:virtual void SparkFun_UBLOX_GNSS::SfeSerial::startWriteReadByte()	1
+../Core/Inc/sfe_bus.h:174:10:virtual void SparkFun_UBLOX_GNSS::SfeSerial::writeReadByte(const uint8_t*, uint8_t*)	1
+../Core/Inc/sfe_bus.h:175:10:virtual void SparkFun_UBLOX_GNSS::SfeSerial::writeReadByte(uint8_t, uint8_t*)	1
+../Core/Inc/sfe_bus.h:176:10:virtual void SparkFun_UBLOX_GNSS::SfeSerial::endWriteReadByte()	1
+../Core/Inc/sfe_bus.h:64:9:constexpr SparkFun_UBLOX_GNSS::GNSSDeviceBus::GNSSDeviceBus()	1
+../Core/Inc/sfe_bus.cpp:62:3:SparkFun_UBLOX_GNSS::SfeI2C::SfeI2C()	1
+../Core/Inc/sfe_bus.cpp:72:8:bool SparkFun_UBLOX_GNSS::SfeI2C::init(I2C_HandleTypeDef*, uint8_t, uint32_t)	2
+../Core/Inc/sfe_bus.cpp:90:8:virtual bool SparkFun_UBLOX_GNSS::SfeI2C::ping()	2
+../Core/Inc/sfe_bus.cpp:113:12:virtual uint16_t SparkFun_UBLOX_GNSS::SfeI2C::available()	3
+../Core/Inc/sfe_bus.cpp:136:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeI2C::writeBytes(uint8_t*, uint8_t)	4
+../Core/Inc/sfe_bus.cpp:154:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeI2C::readBytes(uint8_t*, uint8_t)	4
+../Core/Inc/sfe_bus.cpp:173:3:SparkFun_UBLOX_GNSS::SfeSPI::SfeSPI()	1
+../Core/Inc/sfe_bus.cpp:183:8:bool SparkFun_UBLOX_GNSS::SfeSPI::init(SPI_HandleTypeDef*, GPIO_TypeDef*, uint16_t, uint32_t)	4
+../Core/Inc/sfe_bus.cpp:213:12:virtual uint16_t SparkFun_UBLOX_GNSS::SfeSPI::available()	1
+../Core/Inc/sfe_bus.cpp:221:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSPI::writeBytes(uint8_t*, uint8_t)	4
+../Core/Inc/sfe_bus.cpp:242:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSPI::readBytes(uint8_t*, uint8_t)	4
+../Core/Inc/sfe_bus.cpp:263:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSPI::writeReadBytes(const uint8_t*, uint8_t*, uint8_t)	4
+../Core/Inc/sfe_bus.cpp:284:8:virtual void SparkFun_UBLOX_GNSS::SfeSPI::startWriteReadByte()	1
+../Core/Inc/sfe_bus.cpp:288:8:virtual void SparkFun_UBLOX_GNSS::SfeSPI::writeReadByte(const uint8_t*, uint8_t*)	1
+../Core/Inc/sfe_bus.cpp:292:8:virtual void SparkFun_UBLOX_GNSS::SfeSPI::writeReadByte(uint8_t, uint8_t*)	1
+../Core/Inc/sfe_bus.cpp:296:8:virtual void SparkFun_UBLOX_GNSS::SfeSPI::endWriteReadByte()	1
+../Core/Inc/sfe_bus.cpp:305:3:SparkFun_UBLOX_GNSS::SfeSerial::SfeSerial()	1
+../Core/Inc/sfe_bus.cpp:314:8:bool SparkFun_UBLOX_GNSS::SfeSerial::init(STM32Serial*)	3
+../Core/Inc/sfe_bus.cpp:332:12:virtual uint16_t SparkFun_UBLOX_GNSS::SfeSerial::available()	2
+../Core/Inc/sfe_bus.cpp:344:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSerial::writeBytes(uint8_t*, uint8_t)	3
+../Core/Inc/sfe_bus.cpp:358:11:virtual uint8_t SparkFun_UBLOX_GNSS::SfeSerial::readBytes(uint8_t*, uint8_t)	3

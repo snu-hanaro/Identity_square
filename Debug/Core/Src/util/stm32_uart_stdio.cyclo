@@ -1,0 +1,5 @@
+../Core/Src/util/stm32_uart_stdio.cpp:17:6:int _write(int, char*, int)	1
+../Core/Src/util/stm32_uart_stdio.cpp:22:6:int _read(int, char*, int)	1
+../Core/Src/util/stm32_uart_stdio.cpp:26:6:int __io_putchar(int)	1
+../Core/Src/util/stm32_uart_stdio.cpp:31:6:int __io_getchar()	1
+../Core/Src/util/stm32_uart_stdio.cpp:41:6:void init_stdio()	1

@@ -1,0 +1,12 @@
+E:\STM32CubeIDE_1.18.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/cmath:234:3:constexpr float std::fabs(float)	16	static
+E:\STM32CubeIDE_1.18.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/cmath:253:3:constexpr float std::floor(float)	16	static
+E:\STM32CubeIDE_1.18.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/cmath:438:3:constexpr float std::sqrt(float)	16	static
+../Core/Inc/utils/micros.h:41:22:void DWT_Init()	4	static
+../Core/Inc/utils/micros.h:54:26:uint32_t micros()	4	static
+../Core/Inc/utils/common.h:38:21:float Pa2altM(float, float)	16	static
+../Core/Inc/utils/common.h:42:21:float norm(float, float, float)	24	static
+../Core/Inc/utils/common.h:46:24:uint32_t millis()	8	static
+../Core/Src/stm32_main.cpp:57:6:void measure_databoard_voltage()	40	static
+../Core/Src/stm32_main.cpp:88:6:void begin()	88	static
+../Core/Src/stm32_main.cpp:156:6:void loop()	320	static
+E:\STM32CubeIDE_1.18.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/cmath:1070:5:constexpr typename __gnu_cxx::__promote_2<_Tp, _Up>::__type std::pow(_Tp, _Up) [with _Tp = float; _Up = double]	24	static

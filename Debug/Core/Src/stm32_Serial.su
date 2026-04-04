@@ -1,0 +1,10 @@
+../Core/Src/stm32_Serial.cpp:11:1:STM32Serial::STM32Serial()	16	static
+../Core/Src/stm32_Serial.cpp:13:6:bool STM32Serial::init(UART_HandleTypeDef*)	16	static
+../Core/Src/stm32_Serial.cpp:22:6:void STM32Serial::RxCpltCallback()	16	static
+../Core/Src/stm32_Serial.cpp:37:6:void STM32Serial::TxCpltCallback()	24	static
+../Core/Src/stm32_Serial.cpp:46:6:bool STM32Serial::changeBaudrate(uint32_t)	16	static
+../Core/Src/stm32_Serial.cpp:59:8:size_t STM32Serial::writeBytes(uint8_t*, size_t)	32	static
+../Core/Src/stm32_Serial.cpp:79:8:size_t STM32Serial::write(uint8_t)	16	static
+../Core/Src/stm32_Serial.cpp:83:8:size_t STM32Serial::readBytes(uint8_t*, size_t)	32	static
+../Core/Src/stm32_Serial.cpp:95:8:size_t STM32Serial::read()	24	static
+../Core/Src/stm32_Serial.cpp:103:8:size_t STM32Serial::available()	16	static
