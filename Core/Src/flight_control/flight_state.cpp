@@ -105,7 +105,7 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 	#endif
 #else
 		lower_count >= 5
-#ifdef GROUND_TEST
+#ifdef REAL_LAUNCH
 		&& alt >= MAIN_DEPLOY_MIN_ALT
 #endif
 #endif
