@@ -19,22 +19,6 @@
 #define min(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
 
-#define MILLIS_TIMER_DEFINE(name) static bool name##_timer_set; \
-	static uint32_t name##_timer_millis;
-
-#define MILLIS_TIMER_ISSET(name) (name##_timer_set)
-
-#define MILLIS_TIMER_SET(name) do{ \
-	name##_timer_set = true; \
-	name##_timer_millis = millis(); \
-} while(0)
-
-#define MILLIS_TIMER_UNSET(name) do{ \
-	name##_timer_set = false; \
-} while(0)
-
-#define MILLIS_TIMER_CHECK(name, intv_millis) (name##_timer_set && millis() > name##_timer_millis + intv_millis)
-
 static inline float Pa2altM(float Pa, float sea_level_Pa) {
   return 44307.69396*(1.0 - pow(Pa/sea_level_Pa, 0.190284));
 }

@@ -16,6 +16,7 @@
 #include "utils/stm32_uart_stdio.h"
 #include "utils/debug_printf.h"
 #include "utils/common.h"
+#include "utils/stopwatch.h"
 #include "config.h"
 #include "buzzer/switching_buzzer.h"
 #include "buzzer/buzzer.h"
@@ -48,7 +49,7 @@ extern float ground_pres;
 
 static int ignite_counter;
 #ifdef FC2
-MILLIS_TIMER_DEFINE(ignite);
+static stopwatch_millis_t ignite_stopwatch;
 #endif
 bool is_ignited;
 
@@ -237,13 +238,13 @@ void loop(void){
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
 #else
-			if (!MILLIS_TIMER_ISSET(ignite)) {
-				MILLIS_TIMER_SET(ignite);
+			if (!ignite_stopwatch.is_set()) {
+				ignite_stopwatch.set();
 			}
 #endif
 		}
 #ifdef FC2
-		if (MILLIS_TIMER_CHECK(ignite, 700)) {
+		if (ignite_stopwatch.is_set() && ignite_stopwatch.elapsed() >= 700) {
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);

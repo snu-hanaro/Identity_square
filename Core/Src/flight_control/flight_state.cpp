@@ -9,6 +9,7 @@
 
 #include "utils/debug_printf.h"
 #include "utils/common.h"
+#include "utils/stopwatch.h"
 
 static FLIGHT_STATE flight_state = FLIGHT_STATE_READY;
 
@@ -24,9 +25,8 @@ static float alt = 0.0;
 static int lower_count = 0, outlier_count = 0;
 static int burnout_count = 0;
 
-MILLIS_TIMER_DEFINE(main);
-
-static uint32_t apogee_time_millis;
+static stopwatch_millis_t main_stopwatch;
+static stopwatch_millis_t apogee_stopwatch;
 
 FLIGHT_STATE init_flight_state_machine(const flight_state_machine_init_input &init_input){
 	ground_ax = init_input.ground_ax;
@@ -89,7 +89,7 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 			outlier_count = 0;
 			max_alt = 0;
 #ifdef RECOVERY_TEST
-			MILLIS_TIMER_SET(main);
+			main_stopwatch.set();
 #endif
 		}
 		break;
@@ -99,9 +99,9 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 		if (
 #ifdef RECOVERY_TEST
 	#ifdef FC1
-		MILLIS_TIMER_CHECK(main, 1000*30)
+		main_stopwatch.elapsed() >= 1000*30
 	#else
-		MILLIS_TIMER_CHECK(main, 1000*30 + 700)
+		main_stopwatch.elapsed() >= 1000*30 + 700
 	#endif
 #else
 		lower_count >= 5
@@ -111,24 +111,24 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 #endif
 		){
 #ifdef FC1
-			apogee_time_millis = input.time_millis;
+			apogee_stopwatch.set();
 			flight_state = FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
 #else
-			if(!MILLIS_TIMER_ISSET(main)){
-				MILLIS_TIMER_SET(main);
+			if(!main_stopwatch.is_set()){
+				main_stopwatch.set();
 			}
 #endif
 		}
 #ifdef FC2
-		if(MILLIS_TIMER_CHECK(main, 700)){
-			apogee_time_millis = input.time_millis;
+		if(main_stopwatch.is_set() && main_stopwatch.elapsed() >= 700){
+			apogee_stopwatch.set();
 			flight_state = FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
 		}
 #endif
 		break;
 
 	case FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED:
-		if(input.time_millis > apogee_time_millis + 10*1000){ //10*60*1000 for real flight
+		if(apogee_stopwatch.is_set() && apogee_stopwatch.elapsed() > 10*1000){ //10*60*1000 for real flight
 			flight_state = FLIGHT_STATE_TOUCHDOWN;
 		}
 		break;
