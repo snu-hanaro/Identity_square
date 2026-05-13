@@ -1,5 +1,0 @@
-../Core/Inc/utils/common.h:38:21:float Pa2altM(float, float)	16	static
-../Core/Inc/utils/common.h:42:21:float norm(float, float, float)	24	static
-../Core/Inc/utils/common.h:46:24:uint32_t millis()	8	static
-../Core/Src/flight_control/flight_state.cpp:31:14:FLIGHT_STATE init_flight_state_machine(const flight_state_machine_init_input&)	16	static
-../Core/Src/flight_control/flight_state.cpp:40:14:FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input&)	32	static

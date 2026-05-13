@@ -1,2 +1,0 @@
-../Core/Src/ADC/ADC.cpp:10:10:uint32_t analogRead(ADC_HandleTypeDef*)	2
-../Core/Src/ADC/ADC.cpp:28:7:float convert_adc_to_voltate(uint32_t)	1

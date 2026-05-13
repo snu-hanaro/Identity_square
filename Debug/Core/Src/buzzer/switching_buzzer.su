@@ -1,2 +1,0 @@
-../Core/Src/buzzer/switching_buzzer.cpp:14:6:void init_switching_buzzer(TIM_HandleTypeDef*)	16	static
-../Core/Src/buzzer/switching_buzzer.cpp:18:6:void set_buzzer_switching_intv(uint32_t)	16	static
