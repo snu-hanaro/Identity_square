@@ -108,7 +108,7 @@ ICM_20948_Status_e ICM_20948::initializeDMP(void)
   // Set Gyro FSR (Full scale range) to 2000dps through GYRO_CONFIG_1
   // Set Accel FSR (Full scale range) to 16g through ACCEL_CONFIG
   ICM_20948_fss_t myFSS; // This uses a "Full Scale Settings" structure that can contain values for all configurable sensors
-  myFSS.a = gpm4;       // (ICM_20948_ACCEL_CONFIG_FS_SEL_e)
+  myFSS.a = gpm16;       // (ICM_20948_ACCEL_CONFIG_FS_SEL_e)
                          // gpm2
                          // gpm4
                          // gpm8
@@ -177,10 +177,11 @@ ICM_20948_Status_e ICM_20948::initializeDMP(void)
   // The DMP scales accel raw data internally to align 1g as 2^25
   // In order to align internal accel raw data 2^25 = 1g write 0x04000000 when FSR is 4g
   // 16g일 때는 4배 커져야 할 것으로 예상(확실하지 않음)
-  const unsigned char accScale[4] = {0x10, 0x00, 0x00, 0x00};
+  // 실험 결과 숫자를 바꿔봐도 차이가 없어서 일단 원본값 0x04로 유지
+  const unsigned char accScale[4] = {0x04, 0x00, 0x00, 0x00};
   result = writeDMPmems(ACC_SCALE, 4, &accScale[0]); if (result > worstResult) worstResult = result; // Write accScale to ACC_SCALE DMP register
   // In order to output hardware unit data as configured FSR write 0x00040000 when FSR is 4g
-  const unsigned char accScale2[4] = {0x00, 0x10, 0x00, 0x00};
+  const unsigned char accScale2[4] = {0x00, 0x04, 0x00, 0x00};
   result = writeDMPmems(ACC_SCALE2, 4, &accScale2[0]); if (result > worstResult) worstResult = result; // Write accScale2 to ACC_SCALE2 DMP register
 
   // Configure Compass mount matrix and scale to DMP
