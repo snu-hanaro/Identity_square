@@ -633,6 +633,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, IGNITE_Pin|DROGUE_SRAD_Pin, GPIO_PIN_RESET);
 
+
+
   /*Configure GPIO pin : PASSIVE_Pin */
   GPIO_InitStruct.Pin = PASSIVE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

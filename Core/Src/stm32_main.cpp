@@ -103,6 +103,7 @@ void begin(void){
 	measure_databoard_voltage();
 
 	HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(DROGUE_SRAD_GPIO_Port, DROGUE_SRAD_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(MAIN_SRAD_GPIO_Port, MAIN_SRAD_Pin, GPIO_PIN_RESET);
 
 	if(!sd_fail_flag) buzzer_play_ok();
@@ -210,10 +211,10 @@ void loop(void){
 		.mag_x = icm20948_last_agmt.mag_x,
 		.mag_y = icm20948_last_agmt.mag_y,
 		.mag_z = icm20948_last_agmt.mag_z,
-		.quat_w = (float)icm20948_last_dmp_quat.w,
-		.quat_x = (float)icm20948_last_dmp_quat.x,
-		.quat_y = (float)icm20948_last_dmp_quat.y,
-		.quat_z = (float)icm20948_last_dmp_quat.z,
+		.quat_w = icm20948_last_dmp_quat.w,
+		.quat_x = icm20948_last_dmp_quat.x,
+		.quat_y = icm20948_last_dmp_quat.y,
+		.quat_z = icm20948_last_dmp_quat.z,
 		.pressure = bmp581_last_data.pressure,
 		.temperature = bmp581_last_data.temperature,
 		.passive = passive
@@ -224,31 +225,25 @@ void loop(void){
 	if(flight_state != next_flight_state){
 		flight_state = next_flight_state;
 		set_buzzer_switching_intv(state_buzzer_intv_millis[flight_state]);
-		if(flight_state == FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED) {
+		if(flight_state == FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED) {
+			HAL_GPIO_WritePin(DROGUE_SRAD_GPIO_Port, DROGUE_SRAD_Pin, GPIO_PIN_SET);
+		}
+		else if(flight_state == FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED) {
+			HAL_GPIO_WritePin(DROGUE_SRAD_GPIO_Port, DROGUE_SRAD_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(MAIN_SRAD_GPIO_Port, MAIN_SRAD_Pin, GPIO_PIN_SET);
-		} else if(flight_state == FLIGHT_STATE_TOUCHDOWN) {
+		}
+		else if(flight_state == FLIGHT_STATE_TOUCHDOWN) {
 			HAL_GPIO_WritePin(MAIN_SRAD_GPIO_Port, MAIN_SRAD_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_RESET);
 		}
 	}
 	if (!is_ignited) {
 		if (flight_state == FLIGHT_STATE_LAUNCH && ignite_counter >= 5) {
-#ifdef FC1
-			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
-			is_ignited = true;
-			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
-#else
-			if (!MILLIS_TIMER_ISSET(ignite)) {
-				MILLIS_TIMER_SET(ignite);
-			}
-#endif
-		}
-#ifdef FC2
-		if (MILLIS_TIMER_CHECK(ignite, 700)) {
+
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
 		}
-#endif
 	}
 
 	csv_format csv_data = {

@@ -24,7 +24,7 @@
 // SD 실패 허용 횟수
 #define SD_FAIL_THRESHOLD 10
 //FC1 / FC2
-// #define FC1
+//#define FC1
 #define FC2
 #if defined(FC1) && defined(FC2)
 #error "Only one of FC1 and FC2 can be defined"
@@ -35,11 +35,12 @@
 // 공전회 테스트 시 켜는 매크로(타이머)
 //#define RECOVERY_TEST
 // 공전회 이외 지상 테스트 시 켜는 매크로(아래 최소 고도 조건 바활성화)
-//#define GROUND_TEST
+#define GROUND_TEST
 // 실제 발사 시 켜는 매크로
-#define REAL_LAUNCH
+//#define REAL_LAUNCH
 
-#define MAIN_DEPLOY_MIN_ALT 20.0f
+#define DROGUE_DEPLOY_MIN_ALT 20.0f
+#define MAIN_DEPLOY_ALT 200.0f
 #define IGNITE_MIN_ALT 20.0f
 
 // 실제 발사시에는 디버깅 해제하여 성능 향상
@@ -62,6 +63,7 @@
 static const uint32_t state_buzzer_intv_millis[10] = {0,
 	300, // FLIGHT_STATE_READY
 	100, // FLIGHT_STATE_LAUNCH
+	2000, //FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED
 	1000,// FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED
 	4000 // FLIGHT_STATE_TOUCHDOWN
 };

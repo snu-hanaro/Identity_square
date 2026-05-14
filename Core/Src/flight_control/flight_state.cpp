@@ -24,9 +24,11 @@ static float alt = 0.0;
 static int lower_count = 0, outlier_count = 0;
 static int burnout_count = 0;
 
+MILLIS_TIMER_DEFINE(drogue);
 MILLIS_TIMER_DEFINE(main);
+MILLIS_TIMER_DEFINE(touchdown);
 
-static uint32_t apogee_time_millis;
+static uint32_t main_time_millis;
 
 FLIGHT_STATE init_flight_state_machine(const flight_state_machine_init_input &init_input){
 	ground_ax = init_input.ground_ax;
@@ -89,7 +91,9 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 			outlier_count = 0;
 			max_alt = 0;
 #ifdef RECOVERY_TEST
-			MILLIS_TIMER_SET(main);
+			if(!MILLIS_TIMER_ISSET(drogue)){
+				MILLIS_TIMER_SET(drogue);
+			}
 #endif
 		}
 		break;
@@ -98,21 +102,24 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 		//공전회 --> 30초, 실제 발사에서 주석 부분
 		if (
 #ifdef RECOVERY_TEST
-	#ifdef FC1
-		MILLIS_TIMER_CHECK(main, 1000*30)
-	#else
-		MILLIS_TIMER_CHECK(main, 1000*30 + 700)
-	#endif
+//	#ifdef FC1
+		MILLIS_TIMER_CHECK(drogue, 1000*30)
+//	#else
+//		MILLIS_TIMER_CHECK(drogue, 1000*30 + 700)
+//	#endif
 #else
 		lower_count >= 5
 #ifdef REAL_LAUNCH
-		&& alt >= MAIN_DEPLOY_MIN_ALT
+		&& alt >= DROGUE_DEPLOY_MIN_ALT
 #endif
 #endif
 		){
 #ifdef FC1
-			apogee_time_millis = input.time_millis;
-			flight_state = FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
+			if(!MILLIS_TIMER_ISSET(main)){
+				MILLIS_TIMER_SET(main);
+			}
+			flight_state = FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED;
+
 #else
 			if(!MILLIS_TIMER_ISSET(main)){
 				MILLIS_TIMER_SET(main);
@@ -121,14 +128,35 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 		}
 #ifdef FC2
 		if(MILLIS_TIMER_CHECK(main, 700)){
-			apogee_time_millis = input.time_millis;
-			flight_state = FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
+			flight_state = FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED;
 		}
 #endif
 		break;
 
+	case FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED:
+		if(
+#ifdef RECOVERY_TEST
+	#ifdef FC1
+		MILLIS_TIMER_CHECK(main, 1000*30)
+	#else
+		MILLIS_TIMER_CHECK(main, 1000*30 /*+ 700*/)
+	#endif
+#endif
+		MILLIS_TIMER_CHECK(main, 5*1000) && alt <= MAIN_DEPLOY_ALT
+		){
+//			main_time_millis = input.time_millis;
+			if(!MILLIS_TIMER_ISSET(touchdown)){
+				MILLIS_TIMER_SET(touchdown);
+			}
+			flight_state=FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
+		}
+		break;
+
 	case FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED:
-		if(input.time_millis > apogee_time_millis + 10*1000){ //10*60*1000 for real flight
+		if(
+//				input.time_millis > main_time_millis + 10*1000
+				MILLIS_TIMER_CHECK(touchdown, 10*1000)
+		){ //10 sec
 			flight_state = FLIGHT_STATE_TOUCHDOWN;
 		}
 		break;
