@@ -237,11 +237,18 @@ void loop(void){
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
 		}
 	}
+	
+// 1. 3축 가속도 데이터의 벡터 크기(절대 가속도 값) 연산
+    float acc_absolute = norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z);
+
+// 2. 현재 기압과 지상 기준 기압(ground_pres) 데이터를 비교하여 상대 고도 계산
+    float relative_altitude = Pa2altM(bmp581_last_data.pressure, ground_pres);
 
 	csv_format csv_data = {
 		.devicetime_ms = HAL_GetTick(),
 		.devicetime_us = micros(),
 		.flight_state = flight_state,
+		.a_abs = acc_absolute,
 		.acc_x = icm20948_last_agmt.acc_x,
 		.acc_y = icm20948_last_agmt.acc_y,
 		.acc_z = icm20948_last_agmt.acc_z,
@@ -251,6 +258,7 @@ void loop(void){
 		.mag_x = icm20948_last_agmt.mag_x,
 		.mag_y = icm20948_last_agmt.mag_y,
 		.mag_z = icm20948_last_agmt.mag_z,
+		.rel_alt = relative_altitude,
 		.dmp_quat_w = (float)icm20948_last_dmp_quat.w,
 		.dmp_quat_x = (float)icm20948_last_dmp_quat.x,
 		.dmp_quat_y = (float)icm20948_last_dmp_quat.y,
