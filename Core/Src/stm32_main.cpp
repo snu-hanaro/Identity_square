@@ -43,7 +43,6 @@ static uint32_t hzprint_timer_millis;
 static icm20948_agmt_t icm20948_last_agmt;
 static icm20948_dmp_quat_t icm20948_last_dmp_quat;
 static bmp5_sensor_data bmp581_last_data;
-static int passive;
 extern float ground_pres;
 
 static int ignition_count;
@@ -194,12 +193,6 @@ void loop(void){
 		bmp_cnt++;
 	}
 
-	if (HAL_GPIO_ReadPin(PASSIVE_GPIO_Port, PASSIVE_Pin) == GPIO_PIN_RESET) {
-		passive = 1; // connected with GND -> before separation(1)
-	} else {
-		passive = 0; // changed to HIGH -> after separation(0)
-	}
-
 	flight_state_machine_input input = {
 		.time_millis = millis(),
 		.acc_x = icm20948_last_agmt.acc_x,
@@ -216,8 +209,7 @@ void loop(void){
 		.quat_y = icm20948_last_dmp_quat.y,
 		.quat_z = icm20948_last_dmp_quat.z,
 		.pressure = bmp581_last_data.pressure,
-		.temperature = bmp581_last_data.temperature,
-		.passive = passive
+		.temperature = bmp581_last_data.temperature
 	};
 
 	FLIGHT_STATE next_flight_state = run_flight_state_machine(input);
@@ -264,8 +256,7 @@ void loop(void){
 		.dmp_quat_y = (float)icm20948_last_dmp_quat.y,
 		.dmp_quat_z = (float)icm20948_last_dmp_quat.z,
 		.pressure = bmp581_last_data.pressure,
-		.temperature = bmp581_last_data.temperature,
-		.passive = passive
+		.temperature = bmp581_last_data.temperature
 	};
 
 	write_data_csv(csv_data);
