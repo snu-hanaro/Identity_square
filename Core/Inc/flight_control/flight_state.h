@@ -44,6 +44,10 @@ struct flight_state_machine_input{
 	float mag_x, mag_y, mag_z;
 	float quat_w, quat_x, quat_y, quat_z;
 	float pressure, temperature;
+<<<<<<< HEAD
+=======
+	int passive;
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 };
 
 // flight state machine 초기화 함수

@@ -43,9 +43,16 @@ static uint32_t hzprint_timer_millis;
 static icm20948_agmt_t icm20948_last_agmt;
 static icm20948_dmp_quat_t icm20948_last_dmp_quat;
 static bmp5_sensor_data bmp581_last_data;
+<<<<<<< HEAD
 extern float ground_pres;
 
 static int ignition_count;
+=======
+static int passive;
+extern float ground_pres;
+
+static int ignite_counter;
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 #ifdef FC2
 MILLIS_TIMER_DEFINE(ignite);
 #endif
@@ -87,7 +94,10 @@ void measure_databoard_voltage(){
 void begin(void){
 	DWT_Init();
 	init_stdio();
+<<<<<<< HEAD
 	DEBUG_PRINT("\r\n--- Hanaro FC%d Starting ---\r\n", BOARD_ID);
+=======
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 	DEBUG_PRINT("start initializing...\r\n");
 	init_buzzer(&htim3);
 	tone(150);
@@ -99,11 +109,15 @@ void begin(void){
 	tone(250);
 	init_sd(&hspi1, SD_CS_GPIO_Port, SD_CS_Pin);
 	tone(300);
+<<<<<<< HEAD
 	
 	char log_name[32];
     snprintf(log_name, sizeof(log_name), "FC%d_0405", BOARD_ID); 
     init_data_csv(log_name);
 	
+=======
+	init_data_csv("launch_04_05");
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 	measure_databoard_voltage();
 
 	HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_RESET);
@@ -154,7 +168,11 @@ void begin(void){
 	bmp581_last_data = bmp_data;
 
 	is_ignited = false;
+<<<<<<< HEAD
 	ignition_count = 0;
+=======
+	ignite_counter = 0;
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 }
 
 
@@ -168,9 +186,15 @@ void loop(void){
 			if (alt > IGNITE_MIN_ALT) {
 #endif
 				if (norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z) <= 2000) {
+<<<<<<< HEAD
 					ignition_count++;
 				} else {
 					ignition_count = 0;
+=======
+					ignite_counter++;
+				} else {
+					ignite_counter = 0;
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 				}
 #ifdef REAL_LAUNCH
 			}
@@ -198,6 +222,15 @@ void loop(void){
 		bmp_cnt++;
 	}
 
+<<<<<<< HEAD
+=======
+	if (HAL_GPIO_ReadPin(PASSIVE_GPIO_Port, PASSIVE_Pin) == GPIO_PIN_RESET) {
+		passive = 1; // connected with GND -> before separation(1)
+	} else {
+		passive = 0; // changed to HIGH -> after separation(0)
+	}
+
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 	flight_state_machine_input input = {
 		.time_millis = millis(),
 		.acc_x = icm20948_last_agmt.acc_x,
@@ -214,7 +247,12 @@ void loop(void){
 		.quat_y = icm20948_last_dmp_quat.y,
 		.quat_z = icm20948_last_dmp_quat.z,
 		.pressure = bmp581_last_data.pressure,
+<<<<<<< HEAD
 		.temperature = bmp581_last_data.temperature
+=======
+		.temperature = bmp581_last_data.temperature,
+		.passive = passive
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 	};
 
 	FLIGHT_STATE next_flight_state = run_flight_state_machine(input);
@@ -235,25 +273,35 @@ void loop(void){
 		}
 	}
 	if (!is_ignited) {
+<<<<<<< HEAD
 		if (flight_state == FLIGHT_STATE_LAUNCH && ignition_count >= 5) {
+=======
+		if (flight_state == FLIGHT_STATE_LAUNCH && ignite_counter >= 5) {
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
 		}
 	}
+<<<<<<< HEAD
 	
 // 1. 3축 가속도 데이터의 벡터 크기(절대 가속도 값) 연산
     float acc_absolute = norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z);
 
 // 2. 현재 기압과 지상 기준 기압(ground_pres) 데이터를 비교하여 상대 고도 계산
     float relative_altitude = Pa2altM(bmp581_last_data.pressure, ground_pres);
+=======
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 
 	csv_format csv_data = {
 		.devicetime_ms = HAL_GetTick(),
 		.devicetime_us = micros(),
 		.flight_state = flight_state,
+<<<<<<< HEAD
 		.a_abs = acc_absolute,
+=======
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 		.acc_x = icm20948_last_agmt.acc_x,
 		.acc_y = icm20948_last_agmt.acc_y,
 		.acc_z = icm20948_last_agmt.acc_z,
@@ -263,13 +311,21 @@ void loop(void){
 		.mag_x = icm20948_last_agmt.mag_x,
 		.mag_y = icm20948_last_agmt.mag_y,
 		.mag_z = icm20948_last_agmt.mag_z,
+<<<<<<< HEAD
 		.rel_alt = relative_altitude,
+=======
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 		.dmp_quat_w = (float)icm20948_last_dmp_quat.w,
 		.dmp_quat_x = (float)icm20948_last_dmp_quat.x,
 		.dmp_quat_y = (float)icm20948_last_dmp_quat.y,
 		.dmp_quat_z = (float)icm20948_last_dmp_quat.z,
 		.pressure = bmp581_last_data.pressure,
+<<<<<<< HEAD
 		.temperature = bmp581_last_data.temperature
+=======
+		.temperature = bmp581_last_data.temperature,
+		.passive = passive
+>>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 	};
 
 	write_data_csv(csv_data);
