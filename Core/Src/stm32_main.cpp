@@ -87,6 +87,7 @@ void measure_databoard_voltage(){
 void begin(void){
 	DWT_Init();
 	init_stdio();
+	DEBUG_PRINT("\r\n--- Hanaro FC%d Starting ---\r\n", BOARD_ID);
 	DEBUG_PRINT("start initializing...\r\n");
 	init_buzzer(&htim3);
 	tone(150);
@@ -98,7 +99,11 @@ void begin(void){
 	tone(250);
 	init_sd(&hspi1, SD_CS_GPIO_Port, SD_CS_Pin);
 	tone(300);
-	init_data_csv("launch_04_05");
+	
+	char log_name[32];
+    snprintf(log_name, sizeof(log_name), "FC%d_0405", BOARD_ID); 
+    init_data_csv(log_name);
+	
 	measure_databoard_voltage();
 
 	HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_RESET);
