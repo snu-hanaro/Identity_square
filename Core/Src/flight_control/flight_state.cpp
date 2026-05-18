@@ -42,7 +42,7 @@ FLIGHT_STATE init_flight_state_machine(const flight_state_machine_init_input &in
 FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
    if(flight_state > STATE_CONF_DONE){
       //compute alt after ground_pres is obtained(after launch)
-      alt = hPa2altM(input.pressure, ground_pres);
+      alt = Pa2altM(input.pressure, ground_pres);
       //check outlier
       if(alt > max_alt + 10){
          outlier_count++;
