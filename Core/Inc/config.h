@@ -37,7 +37,7 @@
     #error "Only one of FC1 and FC2 can be defined"
 #elif !defined(FC1) && !defined(FC2)
     #error "One of FC1 and FC2 must be defined"
-
+#endif
 
 // 공전회 테스트 시 켜는 매크로(타이머)
 //#define RECOVERY_TEST
