@@ -22,10 +22,6 @@ static int last_pressure_count = 0;
 static float max_alt = 0;
 static float alt = 0.0;
 static int lower_count = 0, outlier_count = 0;
-<<<<<<< HEAD
-=======
-static int burnout_count = 0;
->>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 
 MILLIS_TIMER_DEFINE(drogue);
 MILLIS_TIMER_DEFINE(main);
@@ -69,17 +65,6 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
 	}
 
 	//================================================
-<<<<<<< HEAD
-=======
-	//burnout_count --> 2g 미만인 순간이 연속으로 몇번인지 확인
-	if(flight_state >= FLIGHT_STATE_LAUNCH){
-		if(norm(input.acc_x, input.acc_y, input.acc_z) <= 2000){
-			burnout_count++;
-		}else{
-			burnout_count=0;
-		}
-	}
->>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
 
 	//flight state management
 	switch(flight_state){
