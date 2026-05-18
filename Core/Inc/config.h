@@ -24,7 +24,6 @@
 // SD 실패 허용 횟수
 #define SD_FAIL_THRESHOLD 10
 //FC1 / FC2
-<<<<<<< HEAD
 #define BOARD_ID 1  // 1단 보드는 1, 2단 보드는 2로 수정
 
 #if (BOARD_ID == 1)
@@ -38,15 +37,7 @@
     #error "Only one of FC1 and FC2 can be defined"
 #elif !defined(FC1) && !defined(FC2)
     #error "One of FC1 and FC2 must be defined"
-=======
-//#define FC1
-#define FC2
-#if defined(FC1) && defined(FC2)
-#error "Only one of FC1 and FC2 can be defined"
-#elif !defined(FC1) && !defined(FC2)
-#error "One of FC1 and FC2 must be defined"
->>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
-#endif
+
 
 // 공전회 테스트 시 켜는 매크로(타이머)
 //#define RECOVERY_TEST
