@@ -21,12 +21,12 @@
  * 4 = main fired
  * 5 = touchdown
  */
-enum FLIGHT_STATE{
-	FLIGHT_STATE_READY = 1,
-	FLIGHT_STATE_LAUNCH,
-	FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED,
-	FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED,
-	FLIGHT_STATE_TOUCHDOWN,
+enum FLIGHT_STATE {
+    STATE_CONF_DONE = 1,
+    STATE_INCREASING,
+    STATE_DROGUE_DEPLOY,
+    STATE_MAIN_DEPLOY,
+    STATE_TOUCHDOWN,
 };
 
 // 아래 두 데이터는 센서 의존성을 줄이기 위한 flight state machine에서 참조 가능한 데이터 구조체이다. 
