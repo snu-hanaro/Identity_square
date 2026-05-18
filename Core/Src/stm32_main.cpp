@@ -162,7 +162,7 @@ void loop(void){
 	if(imu_is_agmt_data_ready()){
 		imu_get_agmt(&icm20948_last_agmt);
 		imu_cnt++;
-		if (flight_state == FLIGHT_STATE_LAUNCH) {
+		if (flight_state == STATE_INCREASING) {
 			float alt = Pa2altM(bmp581_last_data.pressure, ground_pres);
 #ifdef REAL_LAUNCH
 			if (alt > IGNITE_MIN_ALT) {
@@ -222,20 +222,20 @@ void loop(void){
 	if(flight_state != next_flight_state){
 		flight_state = next_flight_state;
 		set_buzzer_switching_intv(state_buzzer_intv_millis[flight_state]);
-		if(flight_state == FLIGHT_STATE_DROGUE_PARACHUTE_DEPLOYED) {
+		if(flight_state == STATE_DROGUE_DEPLOY) {
 			HAL_GPIO_WritePin(DROGUE_SRAD_GPIO_Port, DROGUE_SRAD_Pin, GPIO_PIN_SET);
 		}
-		else if(flight_state == FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED) {
+		else if(flight_state == STATE_MAIN_DEPLOY) {
 			HAL_GPIO_WritePin(DROGUE_SRAD_GPIO_Port, DROGUE_SRAD_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(MAIN_SRAD_GPIO_Port, MAIN_SRAD_Pin, GPIO_PIN_SET);
 		}
-		else if(flight_state == FLIGHT_STATE_TOUCHDOWN) {
+		else if(flight_state == STATE_TOUCHDOWN) {
 			HAL_GPIO_WritePin(MAIN_SRAD_GPIO_Port, MAIN_SRAD_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_RESET);
 		}
 	}
 	if (!is_ignited) {
-		if (flight_state == FLIGHT_STATE_LAUNCH && ignition_count >= 5) {
+		if (flight_state == STATE_INCREASING && ignition_count >= 5) {
 
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
