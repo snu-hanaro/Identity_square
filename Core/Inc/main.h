@@ -59,11 +59,7 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-<<<<<<< HEAD
-=======
-#define PASSIVE_Pin GPIO_PIN_0
-#define PASSIVE_GPIO_Port GPIOA
->>>>>>> 3d4405463a1c58142f79781d962fd3e455248f50
+
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
