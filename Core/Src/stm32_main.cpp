@@ -247,8 +247,17 @@ void loop(void){
     float acc_absolute = norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z);
 
 // 2. 현재 기압과 지상 기준 기압(ground_pres) 데이터를 비교하여 상대 고도 계산
-    float relative_altitude = Pa2altM(bmp581_last_data.pressure, ground_pres);
+    float relative_altitude = 0.0f; 
 
+    // ground_pres가 0보다 클 때(즉, 2G 발사 조건이 충족되어 기압이 세팅된 후)만 계산
+    if (ground_pres > 0.0f && bmp581_last_data.pressure > 0.0f) {
+    float current_abs_alt = Pa2altM(bmp581_last_data.pressure, 101325.0f);
+    float ground_abs_alt  = Pa2altM(ground_pres, 101325.0f);
+    
+    relative_altitude = current_abs_alt - ground_abs_alt;
+}
+
+	
 	csv_format csv_data = {
 		.devicetime_ms = HAL_GetTick(),
 		.devicetime_us = micros(),
