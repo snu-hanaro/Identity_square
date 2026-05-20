@@ -1,5 +1,5 @@
 /*
- * flight_state.cpp
+ * flight_state.cpp 
  *
  *  Created on: Apr 1, 2026
  *      Author: shpar
@@ -65,15 +65,15 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
       alt = 0.0;
    }
 
-   //================================================
-   //burnout_count --> 2g 미만인 순간이 연속으로 몇번인지 확인
-   if(flight_state >= STATE_INCREASING){
-      if(norm(input.acc_x, input.acc_y, input.acc_z) <= 2000){
-         burnout_count++;
-      }else{
-         burnout_count=0;
-      }
-   }
+	//================================================
+	//burnout_count --> 2g 미만인 순간이 연속으로 몇번인지 확인
+//	if(flight_state >= FLIGHT_STATE_LAUNCH){
+//		if(norm(input.acc_x, input.acc_y, input.acc_z) <= 2000){
+//			burnout_count++;
+//		}else{
+//			burnout_count=0;
+//		}
+//	}
 
    //flight state management
    switch(flight_state){
@@ -151,6 +151,15 @@ FLIGHT_STATE run_flight_state_machine(const flight_state_machine_input &input){
          flight_state=STATE_MAIN_DEPLOY;
       }
       break;
+		MILLIS_TIMER_CHECK(main, 2*1000) && alt <= MAIN_DEPLOY_ALT
+		){
+//			main_time_millis = input.time_millis;
+			if(!MILLIS_TIMER_ISSET(touchdown)){
+				MILLIS_TIMER_SET(touchdown);
+			}
+			flight_state=FLIGHT_STATE_MAIN_PARACHUTE_DEPLOYED;
+		}
+		break;
 
    case STATE_MAIN_DEPLOY:
       if(

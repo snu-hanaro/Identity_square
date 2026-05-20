@@ -45,7 +45,8 @@ static icm20948_dmp_quat_t icm20948_last_dmp_quat;
 static bmp5_sensor_data bmp581_last_data;
 extern float ground_pres;
 
-static int ignition_count;
+static int ignite_counter;
+static int acc_outlier_count;
 #ifdef FC2
 MILLIS_TIMER_DEFINE(ignite);
 #endif
@@ -158,7 +159,16 @@ void begin(void){
 }
 
 
+
+static float acc=0;
+static float max_acc=0;
+
+
+
+
+
 void loop(void){
+
 	if(imu_is_agmt_data_ready()){
 		imu_get_agmt(&icm20948_last_agmt);
 		imu_cnt++;
@@ -167,10 +177,21 @@ void loop(void){
 #ifdef REAL_LAUNCH
 			if (alt > IGNITE_MIN_ALT) {
 #endif
-				if (norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z) <= 2000) {
-					ignition_count++;
-				} else {
-					ignition_count = 0;
+				//check outlier
+				acc=norm(icm20948_last_agmt.acc_x, icm20948_last_agmt.acc_y, icm20948_last_agmt.acc_z);
+				printf("acc: %f\r\n", acc);
+				if(acc > max_acc + 6000){
+					acc_outlier_count++;
+					if(acc_outlier_count >= 3) acc_outlier_count = 0;
+				}
+				else acc_outlier_count = 0;
+				//outlier_count == 0 => apply to max_acc
+				if(acc_outlier_count == 0){
+					if(acc > max_acc){
+						max_acc = acc;
+						ignite_counter = 0;
+					}
+					else if(acc < max_acc - 35) ignite_counter++;
 				}
 #ifdef REAL_LAUNCH
 			}
@@ -186,7 +207,6 @@ void loop(void){
 		Quaternion q = Quaternion(icm20948_last_dmp_quat.w, icm20948_last_dmp_quat.x, icm20948_last_dmp_quat.y, icm20948_last_dmp_quat.z);
 		float zx = 0, zy = 0, zz = 1;
 		q.rotateVector(zx, zy, zz);
-		DEBUG_PRINT("quzt9 z axis: (%f, %f, %f)\r\n", zx, zy, zz);
 #endif
 		imu_dmp_cnt++;
 	}
@@ -235,8 +255,10 @@ void loop(void){
 		}
 	}
 	if (!is_ignited) {
-		if (flight_state == STATE_INCREASING && ignition_count >= 5) {
-
+		if(flight_state == FLIGHT_STATE_LAUNCH && ignite_counter >= 5 && !MILLIS_TIMER_ISSET(ignite)){
+			MILLIS_TIMER_SET(ignite);
+		}
+		if (MILLIS_TIMER_CHECK(ignite, 11511)) {
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);

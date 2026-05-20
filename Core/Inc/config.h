@@ -46,14 +46,14 @@
 // 실제 발사 시 켜는 매크로
 //#define REAL_LAUNCH
 
-#define DROGUE_DEPLOY_MIN_ALT 20.0f
-#define MAIN_DEPLOY_ALT 200.0f
-#define IGNITE_MIN_ALT 20.0f
+#define DROGUE_DEPLOY_MIN_ALT 20.0f //20.0f for real launch
+#define MAIN_DEPLOY_ALT 150.0f
+#define IGNITE_MIN_ALT 20.0f //20.0f for real launch
 
 // 실제 발사시에는 디버깅 해제하여 성능 향상
-#ifdef REAL_LAUNCH
-#undef FC_DEBUG
-#endif
+//#ifdef REAL_LAUNCH
+//#undef FC_DEBUG
+//#endif
 
 
 // dmp 사용시 켜기
