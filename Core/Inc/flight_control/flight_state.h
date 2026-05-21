@@ -27,6 +27,7 @@ enum FLIGHT_STATE {
     STATE_DROGUE_DEPLOY,
     STATE_MAIN_DEPLOY,
     STATE_TOUCHDOWN,
+
 };
 
 // 아래 두 데이터는 센서 의존성을 줄이기 위한 flight state machine에서 참조 가능한 데이터 구조체이다. 

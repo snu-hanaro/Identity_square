@@ -45,11 +45,9 @@ static icm20948_dmp_quat_t icm20948_last_dmp_quat;
 static bmp5_sensor_data bmp581_last_data;
 extern float ground_pres;
 
-static int ignite_counter;
+static int ignite_counter =0;
 static int acc_outlier_count;
-#ifdef FC2
 MILLIS_TIMER_DEFINE(ignite);
-#endif
 bool is_ignited;
 
 static FLIGHT_STATE flight_state;
@@ -155,7 +153,6 @@ void begin(void){
 	bmp581_last_data = bmp_data;
 
 	is_ignited = false;
-	ignition_count = 0;
 }
 
 
@@ -255,10 +252,10 @@ void loop(void){
 		}
 	}
 	if (!is_ignited) {
-		if(flight_state == FLIGHT_STATE_LAUNCH && ignite_counter >= 5 && !MILLIS_TIMER_ISSET(ignite)){
+		if(flight_state >= STATE_CONF_DONE && ignite_counter >= 7 && !MILLIS_TIMER_ISSET(ignite)){
 			MILLIS_TIMER_SET(ignite);
 		}
-		if (MILLIS_TIMER_CHECK(ignite, 11511)) {
+		if (MILLIS_TIMER_CHECK(ignite, 470)) {
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
