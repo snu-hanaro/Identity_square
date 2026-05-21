@@ -24,7 +24,7 @@
 // SD 실패 허용 횟수
 #define SD_FAIL_THRESHOLD 10
 //FC1 / FC2
-#define BOARD_ID 1  // 1단 보드는 1, 2단 보드는 2로 수정
+#define BOARD_ID 1   // 1단 보드는 1, 2단 보드는 2로 수정
 
 #if (BOARD_ID == 1)
     #define FC1
@@ -42,9 +42,9 @@
 // 공전회 테스트 시 켜는 매크로(타이머)
 //#define RECOVERY_TEST
 // 공전회 이외 지상 테스트 시 켜는 매크로(아래 최소 고도 조건 바활성화)
-#define GROUND_TEST
+//#define GROUND_TEST
 // 실제 발사 시 켜는 매크로
-//#define REAL_LAUNCH
+#define REAL_LAUNCH
 
 #define DROGUE_DEPLOY_MIN_ALT 20.0f //20.0f for real launch
 #define MAIN_DEPLOY_ALT 150.0f
