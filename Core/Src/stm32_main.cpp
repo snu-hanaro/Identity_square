@@ -252,10 +252,10 @@ void loop(void){
 		}
 	}
 	if (!is_ignited) {
-		if(flight_state >= STATE_CONF_DONE && ignite_counter >= 7 && !MILLIS_TIMER_ISSET(ignite)){
+		if(flight_state >= STATE_CONF_DONE && ignite_counter >= 5 && !MILLIS_TIMER_ISSET(ignite)){
 			MILLIS_TIMER_SET(ignite);
 		}
-		if (MILLIS_TIMER_CHECK(ignite, 470)) {
+		if (MILLIS_TIMER_CHECK(ignite, 411)) {
 			HAL_GPIO_WritePin(IGNITE_GPIO_Port, IGNITE_Pin, GPIO_PIN_SET);
 			is_ignited = true;
 			set_buzzer_switching_intv(ignite_buzzer_intv_millis);
