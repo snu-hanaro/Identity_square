@@ -15,8 +15,9 @@ ICM_20948_I2C icm20948;
 bool init_imu(I2C_HandleTypeDef *hi2c){
 
 #define ICM20948_CHECK_FAILURE(op) do { \
-	if ((op) != ICM_20948_Stat_Ok) { \
-		DEBUG_PRINT("failed to run " #op "\r\n"); \
+	ICM_20948_Status_e status; \
+	if ((status = (op)) != ICM_20948_Stat_Ok) { \
+		DEBUG_PRINT("failed to run " #op ", status: %d\r\n", status); \
 		return false; \
 	} \
 } while(0)

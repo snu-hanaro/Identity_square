@@ -13,10 +13,11 @@
 #include <cstring>
 
 #define SD_FAIL_COUNT_RUN(op, debug_op) do { \
+	FRESULT res; \
     sd_fail_count = 0; \
-    while (sd_fail_count < SD_FAIL_THRESHOLD && (op) != FR_OK) { \
+    while (sd_fail_count < SD_FAIL_THRESHOLD && (res = op) != FR_OK) { \
         sd_fail_count++; \
-        DEBUG_PRINT("failed to run " #op ", count: %d\r\n", sd_fail_count); \
+        DEBUG_PRINT("failed to run " #op ", count: %d, result: %d\r\n", sd_fail_count, res); \
         debug_op; \
     } \
     if (sd_fail_count == SD_FAIL_THRESHOLD) { \
@@ -70,7 +71,7 @@ bool init_data_csv(const char *file_prefix){
 		if(res == FR_NO_FILE) break;
 		else if(res != FR_OK){
 			sd_fail_flag = true;
-			DEBUG_PRINT("failed to check existing files in SD!\r\n");
+			DEBUG_PRINT("failed to check existing files in SD!, result: %d\r\n", res);
 			return false;
 		}
 	}
