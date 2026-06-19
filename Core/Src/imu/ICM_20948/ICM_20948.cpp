@@ -52,7 +52,8 @@ void ICM_20948::doDebugPrint(char (*funct)(const char *), const char *string, bo
 
   if (newLine)
   {
-	putchar('\n');
+	putchar('\r');
+  putchar('\n');
     //_debugSerial->println();
   }
 }

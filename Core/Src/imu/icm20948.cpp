@@ -12,8 +12,6 @@
 
 ICM_20948_I2C icm20948;
 
-bool init_imu(I2C_HandleTypeDef *hi2c){
-
 #define ICM20948_CHECK_FAILURE(op) do { \
 	ICM_20948_Status_e status; \
 	if ((status = (op)) != ICM_20948_Stat_Ok) { \
@@ -21,6 +19,15 @@ bool init_imu(I2C_HandleTypeDef *hi2c){
 		return false; \
 	} \
 } while(0)
+
+bool init_imu(I2C_HandleTypeDef *hi2c){
+	DEBUG_PRINT("Initializing IMU...\r\n");
+
+#ifdef FC_DEBUG
+	icm20948.enableDebugging();
+#else
+	icm20948.disableDebugging();
+#endif
 
 	ICM20948_CHECK_FAILURE(icm20948.begin(hi2c));
 #ifdef ICM20948_USE_DMP
