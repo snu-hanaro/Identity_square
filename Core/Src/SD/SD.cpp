@@ -71,7 +71,7 @@ bool init_data_csv(const char *file_prefix){
 		if(res == FR_NO_FILE) break;
 		else if(res != FR_OK){
 			sd_fail_flag = true;
-			DEBUG_PRINT("failed to check existing files in SD!\r\n");
+			DEBUG_PRINT("failed to check existing files in SD!, result: %d\r\n", res);
 			return false;
 		}
 	}
